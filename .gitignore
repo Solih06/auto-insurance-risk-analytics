@@ -11,9 +11,13 @@ __pycache__/
 .DS_Store
 .ipynb_checkpoints/
 
-# Data isolation rules (Crucial for DVC)
+# Data isolation rules (DVC friendly configuration)
 data/raw/*
 data/processed/*
+
+# CRUCIAL: Tell Git NOT to ignore .dvc metadata configurations or .gitignores inside those paths
+!data/raw/*.dvc
+!data/processed/*.dvc
 !data/raw/.gitignore
 !data/processed/.gitignore
 
