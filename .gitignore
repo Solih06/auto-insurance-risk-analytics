@@ -1,0 +1,22 @@
+# Environments and packages
+.venv/
+env/
+venv/
+ENV/
+__pycache__/
+*.pyc
+
+# Local runtime logs and system caches
+*.log
+.DS_Store
+.ipynb_checkpoints/
+
+# Data isolation rules (Crucial for DVC)
+data/raw/*
+data/processed/*
+!data/raw/.gitignore
+!data/processed/.gitignore
+
+# IDE config files
+.vscode/
+.idea/
