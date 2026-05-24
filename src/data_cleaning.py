@@ -1,76 +1,78 @@
+import os
 import pandas as pd
 import numpy as np
-import os
 
-class InsuranceDataEngine:
-    def __init__(self, file_path):
-        self.file_path = file_path
+class AutoInsurancePipeline:
+    def __init__(self, input_path, output_path):
+        self.input_path = input_path
+        self.output_path = output_path
         self.df = None
-        
+
     def load_data(self):
-        """Loads dataset safely and profiles its shape."""
-        if not os.path.exists(self.file_path):
-            raise FileNotFoundError(f"Target data file not found at: {self.file_path}")
-        self.df = pd.read_csv(self.file_path)
-        print(f"[INFO] Dataset loaded successfully. Shape: {self.df.shape[0]} rows, {self.df.shape[1]} columns.")
+        """Loads data from raw DVC-managed folder."""
+        if not os.path.exists(self.input_path):
+            raise FileNotFoundError(f"Source file missing at: {self.input_path}")
+        self.df = pd.read_csv(self.input_path)
+        print(f"[INFO] Initial Ingestion Complete. Base dimensions: {self.df.shape}")
         return self.df
 
-    def evaluate_missing_data(self):
-        """Calculates exact missing value distributions across columns."""
-        missing_count = self.df.isnull().sum()
-        missing_pct = (missing_count / len(self.df)) * 100
-        missing_df = pd.DataFrame({
-            'Missing_Count': missing_count,
-            'Percentage_(%)': missing_pct
-        }).sort_values(by='Percentage_(%)', ascending=False)
-        return missing_df[missing_df['Missing_Count'] > 0]
-
-    def profile_numerical_distributions(self):
-        """Returns foundational statistical descriptions for key variables."""
-        target_cols = ['TotalPremium', 'TotalClaim', 'SumInsured']
-        # Filter down only to existing target columns to avoid unexpected KeyErrors
-        valid_cols = [col for col in target_cols if col in self.df.columns]
-        return self.df[valid_cols].describe()
-
-    def identify_low_risk_segments(self, dimension_col):
-        """
-        Groups data by a demographic or geographic dimension to evaluate 
-        risk optimization options (Claim-to-Premium Ratio).
-        """
-        if dimension_col not in self.df.columns:
-            return f"Dimension column '{dimension_col}' does not exist."
-            
-        # Group and aggregate risk metrics
-        risk_matrix = self.df.groupby(dimension_col).agg(
-            Total_Premium=('TotalPremium', 'sum'),
-            Total_Claims=('TotalClaim', 'sum'),
-            Average_Claim=('TotalClaim', 'mean'),
-            Exposure_Count=(dimension_col, 'count')
-        ).reset_index()
+    def handle_missing_values(self):
+        """Systematically cleans missing fields based on standard domain practices."""
+        print("[INFO] Auditing missing value thresholds...")
         
-        # Calculate Risk Margin Ratio (Lower means higher profitability / lower risk)
-        risk_matrix['Claim_to_Premium_Ratio'] = risk_matrix['Total_Claims'] / risk_matrix['Total_Premium']
-        return risk_matrix.sort_values(by='Claim_to_Premium_Ratio', ascending=True)
+        # Numeric columns get median imputation to protect against skewness
+        numeric_cols = self.df.select_dtypes(include=['float64', 'int64']).columns
+        for col in numeric_cols:
+            if self.df[col].isnull().sum() > 0:
+                median_val = self.df[col].median()
+                self.df[col].fillna(median_val, inplace=True)
+                print(f" Imputed missing numbers in '{col}' with median: {median_val}")
+                
+        # Categorical columns get mode/unspecified fallback imputation
+        categorical_cols = self.df.select_dtypes(include=['object']).columns
+        for col in categorical_cols:
+            if self.df[col].isnull().sum() > 0:
+                mode_val = self.df[col].mode()[0] if not self.df[col].mode().empty else 'Unspecified'
+                self.df[col].fillna(mode_val, inplace=True)
+                print(f" Imputed missing categories in '{col}' with mode: {mode_val}")
+
+    def treat_outliers_iqr(self, target_column):
+        """Flags extreme values using the 1.5 * IQR standard boundary."""
+        if target_column not in self.df.columns:
+            return
+            
+        q1 = self.df[target_column].quantile(0.25)
+        q3 = self.df[target_column].quantile(0.75)
+        iqr = q3 - q1
+        lower_bound = q1 - 1.5 * iqr
+        upper_bound = q3 + 1.5 * iqr
+        
+        # Instead of throwing out real historic high claims, cap them or flag them
+        outliers_count = ((self.df[target_column] < lower_bound) | (self.df[target_column] > upper_bound)).sum()
+        print(f"[OUTLIER AUDIT] '{target_column}' upper limit: {upper_bound:.2f}. Identified records beyond limit: {outliers_count}")
+
+    def save_processed_state(self):
+        """Saves a dense clean baseline ready for analytical modeling modeling."""
+        os.makedirs(os.path.dirname(self.output_path), exist_ok=True)
+        self.df.to_csv(self.output_path, index=False)
+        print(f"[SUCCESS] Exported processed dataset to: {self.output_path}. Dimensions: {self.df.shape}\n")
 
 if __name__ == "__main__":
-    # Update this path to where your local dataset file lives inside data/raw/
-    DATA_PATH = "data/raw/insurance_data.csv" 
+    # Define production lifecycle parameters
+    INPUT_FILE = "data/raw/insurance_data.csv"
+    OUTPUT_FILE = "data/processed/cleaned_insurance_data.csv"
+    
+    pipeline = AutoInsurancePipeline(input_path=INPUT_FILE, output_path=OUTPUT_FILE)
     
     try:
-        engine = InsuranceDataEngine(file_path=DATA_PATH)
-        df = engine.load_data()
+        pipeline.load_data()
+        pipeline.handle_missing_values()
         
-        print("\n=== 1. MISSING DATA PROFILING ===")
-        missing_summary = engine.evaluate_missing_data()
-        print(missing_summary if not missing_summary.empty else "No missing values found across features!")
+        # Run outlier tracking loops on targets
+        pipeline.treat_outliers_iqr('TotalPremium')
+        pipeline.treat_outliers_iqr('TotalClaim')
         
-        print("\n=== 2. NUMERICAL DESCRIPTIVE STATISTICS ===")
-        print(engine.profile_numerical_distributions())
+        pipeline.save_processed_state()
         
-        # Testing geography-based risk insights (e.g., Province)
-        if 'Province' in df.columns:
-            print("\n=== 3. REGIONAL RISK MARGIN PROFILING (Sorted Low to High Risk) ===")
-            print(engine.identify_low_risk_segments(dimension_col='Province'))
-            
     except Exception as e:
-        print(f"[ERROR] Engine runtime failure: {e}")
+        print(f"[FATAL FAILURE] Pipeline run aborted: {e}")
