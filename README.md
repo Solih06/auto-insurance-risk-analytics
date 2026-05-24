@@ -78,12 +78,12 @@ Statistical validation comparing mean claims across demographics (Independent Tw
 
 ## 📊 Delivered EDA Visuals
 
-* **Correlation:** `![Heatmap](reports/figures/01_correlation_matrix.png)`
-* **Risk Scatter:** `![Scatter](reports/figures/02_premium_vs_claim_scatter.png)`
-* **Outliers:** `![Boxplots](reports/figures/03_risk_outliers_boxplots.png)`
+* **Correlation:** ![Heatmap](reports/figures/01_correlation_matrix.png)
+* **Risk Scatter:** ![Scatter](reports/figures/02_premium_vs_claim_scatter.png)
+* **Outliers:** ![Boxplots](reports/figures/03_risk_outliers_boxplots.png)
 ### 4. Hypothesis Testing Diagnostic Evaluation
 Statistical validation using independent t-tests and Chi-Square contingency matrices to verify risk segment variance across demographics and regional boundaries.
-  `![Hypothesis Tests](reports/figures/04_hypothesis_testing_results.png)`
+  ![Hypothesis Tests](reports/figures/04_hypothesis_testing_results.png)
 
 ## 🛠️ Data Engineering Specifications
 Data Version Control (DVC): Raw CSV source datasets are safely partitioned away from Git history using data pointers, keeping repository memory overhead lean and reproducible.
