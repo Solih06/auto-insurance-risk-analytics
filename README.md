@@ -1,19 +1,21 @@
 # Auto Insurance Risk Analytics Engine
 
-An end-to-end data engineering, exploratory analytics, and statistical modeling pipeline built for **AlphaCare Insurance Solutions (ACIS)**. This platform optimizes historical vehicle insurance data, isolates underlying risk vectors, and uses rigorous statistical hypothesis testing to identify low-risk customer segments and maximize underwriting performance in the South African market.
+An end-to-end data engineering, exploratory analytics, and statistical modeling platform built for **AlphaCare Insurance Solutions (ACIS)**. This project optimizes historical vehicle insurance data, isolates underlying risk vectors, and uses rigorous statistical hypothesis testing to identify low-risk customer segments to maximize underwriting performance.
 
 ## 📁 Repository Structure
 The workspace is organized following production-level data science and engineering patterns:
 
 ```text
 auto-insurance-risk-analytics/
-├── .dvc/                         # Data Version Control metadata pointer configuration
+├── .dvc/                         # Data Version Control metadata configuration
 ├── notebooks/                    # Research and interactive development workspaces
 │   └── 01_exploratory_analysis.ipynb
-├── src/                          # Modular production source micro-modules
+├── src/                          # Modular production source code modules
 │   ├── __init__.py
 │   ├── data_cleaning.py          # Missing value structural handling and feature typing
 │   └── hypothesis_testing.py     # Independent T-Test and Chi-Square execution engine
+├── tests/                        # Production unit testing frameworks
+│   └── test_pipeline.py          # Pipeline assertion checks for CI/CD readiness
 ├── reports/
 │   └── figures/                  # Auto-exported high-res analytical assets
 │       ├── 01_correlation_matrix.png
@@ -25,6 +27,16 @@ auto-insurance-risk-analytics/
 ├── README.md                     # Comprehensive project documentation blueprint
 └── requirements.txt              # Unified package dependency declarations
 ```
+
+## 💼 Executive Business Insights & Strategy
+
+Based on our automated data cleaning pipelines and core statistical diagnostics, we have mapped out the following business conclusions for underwriting stakeholders:
+
+    Demographic Risk Consistency: Statistical Two-Sample T-Testing demonstrates no significant variance in historical claim distributions across customer demographic segments. Marketing strategy should remain broad rather than shifting capital into demographic-siloed campaigns.
+
+    Geographic Premium Optimization: Evaluation reveals clear premium-to-claim density anomalies clustered within specific regional boundaries. We recommend targeting localized geographical zones showing high premium retention but historically low claim values to optimize premium pricing tiers.
+
+    Outlier Vulnerability Control: The right-skewed nature of the claims data points to a high exposure to extreme outlier claims. Implementing stricter preliminary deductible filters for high-value vehicle profiles will buffer total claim payouts.
 
 ## 🚀 Environment Setup & Installation Guide
 
