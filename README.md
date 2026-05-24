@@ -32,11 +32,11 @@ auto-insurance-risk-analytics/
 
 Based on our automated data cleaning pipelines and core statistical diagnostics, we have mapped out the following business conclusions for underwriting stakeholders:
 
-    Demographic Risk Consistency: Statistical Two-Sample T-Testing demonstrates no significant variance in historical claim distributions across customer demographic segments. Marketing strategy should remain broad rather than shifting capital into demographic-siloed campaigns.
+Demographic Risk Consistency: Statistical Two-Sample T-Testing demonstrates no significant variance in historical claim distributions across customer demographic segments. Marketing strategy should remain broad rather than shifting capital into demographic-siloed campaigns.
 
-    Geographic Premium Optimization: Evaluation reveals clear premium-to-claim density anomalies clustered within specific regional boundaries. We recommend targeting localized geographical zones showing high premium retention but historically low claim values to optimize premium pricing tiers.
+Geographic Premium Optimization: Evaluation reveals clear premium-to-claim density anomalies clustered within specific regional boundaries. We recommend targeting localized geographical zones showing high premium retention but historically low claim values to optimize premium pricing tiers.
 
-    Outlier Vulnerability Control: The right-skewed nature of the claims data points to a high exposure to extreme outlier claims. Implementing stricter preliminary deductible filters for high-value vehicle profiles will buffer total claim payouts.
+Outlier Vulnerability Control: The right-skewed nature of the claims data points to a high exposure to extreme outlier claims. Implementing stricter preliminary deductible filters for high-value vehicle profiles will buffer total claim payouts.
 
 ## 🚀 Environment Setup & Installation Guide
 
@@ -79,8 +79,8 @@ The following evaluation assets are dynamically generated and archived into repo
 
 Maps cross-correlations across numerical features to pinpoint predictive metrics and structural target dependencies.
 2. Premium Exposure vs. Historical Claim Aggregation (Task 1)
-
 A spatial scatter distribution tracking risk density profiles and total financial exposure, segmented by geographic zones.
+
 3. Risk Variance & Outlier Boxplots (Task 1)
 
 Statistical distributions outlining systemic variance, heavy right-skewed claims distributions, and asset value outliers.
