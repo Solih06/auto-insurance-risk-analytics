@@ -76,14 +76,27 @@ Statistical distributions outlining systemic variance, heavy right-skewed claims
 
 Statistical validation comparing mean claims across demographics (Independent Two-Sample T-Test) and regional risk categorization frequencies (Chi-Square Test of Independence).
 
-## 📊 Delivered EDA Visuals
+## Visuals
 
-* **Correlation:** ![Heatmap](reports/figures/01_correlation_matrix.png)
-* **Risk Scatter:** ![Scatter](reports/figures/02_premium_vs_claim_scatter.png)
-* **Outliers:** ![Boxplots](reports/figures/03_risk_outliers_boxplots.png)
-### 4. Hypothesis Testing Diagnostic Evaluation
-Statistical validation using independent t-tests and Chi-Square contingency matrices to verify risk segment variance across demographics and regional boundaries.
-  ![Hypothesis Tests](reports/figures/04_hypothesis_testing_results.png)
+The processing engine incorporates dynamic attribute matching logic that parses variations in column schemas (e.g., automatically matching Premium, Claim, Gender, and Regional identifiers) to avoid hardcoded `KeyError` blocks across variant datasets.
+
+The following evaluation assets are dynamically generated and archived into `reports/figures/` during execution:
+
+### 1. Continuous Feature Correlation Heatmap (Task 1)
+Maps cross-correlations across numerical features to pinpoint predictive metrics and structural target dependencies.
+![Correlation Heatmap](reports/figures/01_correlation_matrix.png)
+
+### 2. Premium Exposure vs. Historical Claim Aggregation (Task 1)
+A spatial scatter distribution tracking risk density profiles and total financial exposure, segmented by geographic zones.
+![Premium vs Claim Scatter](reports/figures/02_premium_vs_claim_scatter.png)
+
+### 3. Risk Variance & Outlier Boxplots (Task 1)
+Statistical distributions outlining systemic variance, heavy right-skewed claims distributions, and asset value outliers.
+![Risk Outliers Boxplots](reports/figures/03_risk_outliers_boxplots.png)
+
+### 4. Hypothesis Testing Diagnostic Evaluation (Task 2)
+Statistical validation comparing mean claims across demographics (Independent Two-Sample T-Test) and regional risk categorization frequencies (Chi-Square Test of Independence).
+![Hypothesis Tests](reports/figures/04_hypothesis_testing_results.png)
 
 ## 🛠️ Data Engineering Specifications
 Data Version Control (DVC): Raw CSV source datasets are safely partitioned away from Git history using data pointers, keeping repository memory overhead lean and reproducible.
