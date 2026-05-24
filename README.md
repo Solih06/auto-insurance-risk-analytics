@@ -1,31 +1,31 @@
 # Auto Insurance Risk Analytics Engine
 
-An end-to-end data engineering and analytics pipeline built for **AlphaCare Insurance Solutions (ACIS)**. This project focuses on analyzing historical insurance data, performing comprehensive Exploratory Data Analysis (EDA), optimizing pricing/marketing strategies, and identifying low-risk customer segments in the South African market.
-
----
+An end-to-end data engineering, exploratory analytics, and statistical modeling pipeline built for **AlphaCare Insurance Solutions (ACIS)**. This platform optimizes historical vehicle insurance data, isolates underlying risk vectors, and uses rigorous statistical hypothesis testing to identify low-risk customer segments and maximize underwriting performance in the South African market.
 
 ## 📁 Repository Structure
-The workspace is organized following standard data science repository layouts:
+The workspace is organized following production-level data science and engineering patterns:
 
 ```text
 auto-insurance-risk-analytics/
-├── .dvc/                         # Data Version Control metadata
-├── notebooks/                    # Interactive research workspaces
+├── .dvc/                         # Data Version Control metadata pointer configuration
+├── notebooks/                    # Research and interactive development workspaces
 │   └── 01_exploratory_analysis.ipynb
-├── src/                          # Modular production source scripts
+├── src/                          # Modular production source micro-modules
 │   ├── __init__.py
-│   ├── data_cleaning.py          # Missing value handling and typing
-│   └── hypothesis_testing.py     # Statistical testing suites
+│   ├── data_cleaning.py          # Missing value structural handling and feature typing
+│   └── hypothesis_testing.py     # Independent T-Test and Chi-Square execution engine
 ├── reports/
-│   └── figures/                  # Auto-exported high-res visual assets
+│   └── figures/                  # Auto-exported high-res analytical assets
 │       ├── 01_correlation_matrix.png
 │       ├── 02_premium_vs_claim_scatter.png
-│       └── 03_risk_outliers_boxplots.png
-├── venv/                         # Isolated local Python virtual environment
-├── .gitignore                    # System file exclusions (including heavy data files)
-├── README.md                     # Project documentation blueprint
-└── requirements.txt              # Core package dependencies
+│       ├── 03_risk_outliers_boxplots.png
+│       └── 04_hypothesis_testing_results.png
+├── venv/                         # Isolated local Python virtual environment sandbox
+├── .gitignore                    # System file exclusions (DVC dataset isolation)
+├── README.md                     # Comprehensive project documentation blueprint
+└── requirements.txt              # Unified package dependency declarations
 ```
+
 ## 🚀 Environment Setup & Installation Guide
 
 Follow these sequential steps to initialize the environment and run the pipeline inside VS Code:
@@ -60,25 +60,32 @@ Install the baseline data science toolkits along with ipykernel to bridge the vi
 
 ## 📊 Core Analytical Artifacts & Visuals
 
-The following evaluation assets are dynamically generated and archived into reports/figures/ during execution:
-1. Continuous Feature Correlation Heatmap
+The processing engine incorporates dynamic attribute matching logic that parses variations in column schemas (e.g., automatically matching Premium, Claim, Gender, and Regional identifiers) to avoid hardcoded KeyError blocks across variant datasets.
 
-Maps cross-correlations across numerical metrics to pinpoint predictive feature pairs for downstream risk forecasting.
-2. Premium Exposure vs. Historical Claim Aggregation
+The following evaluation assets are dynamically generated and archived into reports/figures/ during execution:
+1. Continuous Feature Correlation Heatmap (Task 1)
+
+Maps cross-correlations across numerical features to pinpoint predictive metrics and structural target dependencies.
+2. Premium Exposure vs. Historical Claim Aggregation (Task 1)
 
 A spatial scatter distribution tracking risk density profiles and total financial exposure, segmented by geographic zones.
-3. Risk Variance & Outlier Boxplots
+3. Risk Variance & Outlier Boxplots (Task 1)
 
 Statistical distributions outlining systemic variance, heavy right-skewed claims distributions, and asset value outliers.
+4. Hypothesis Testing Diagnostic Evaluation (Task 2)
+
+Statistical validation comparing mean claims across demographics (Independent Two-Sample T-Test) and regional risk categorization frequencies (Chi-Square Test of Independence).
 
 ## 📊 Delivered EDA Visuals
 
 * **Correlation:** `![Heatmap](reports/figures/01_correlation_matrix.png)`
 * **Risk Scatter:** `![Scatter](reports/figures/02_premium_vs_claim_scatter.png)`
 * **Outliers:** `![Boxplots](reports/figures/03_risk_outliers_boxplots.png)`
+### 4. Hypothesis Testing Diagnostic Evaluation
+Statistical validation using independent t-tests and Chi-Square contingency matrices to verify risk segment variance across demographics and regional boundaries.
+  `![Hypothesis Tests](reports/figures/04_hypothesis_testing_results.png)`
 
-## 🛠️ Engineering Components
-
-    Data Version Control (DVC): Heavy raw datasets are kept out of Git tracking by leveraging .gitignore and maintaining a secure local cache pointer directory structure.
-
-    Dynamic Attribute Selector: Avoids hardcoded string assumptions. Notebook modules use text-scanning logic to cleanly map source files seamlessly regardless of minor column naming differences.
+## 🛠️ Data Engineering Specifications
+Data Version Control (DVC): Raw CSV source datasets are safely partitioned away from Git history using data pointers, keeping repository memory overhead lean and reproducible.
+Dynamic Attribute Selector: Decoupled architecture scanning file schemas on runtime to prevent code breakdown during cross-environment execution.
+Statistical Rigor: Hypothesis outputs reject or fail-to-reject null hypotheses ($H_0$) based on explicit $p$-value margins ($\alpha = 0.05$), ensuring data-backed business strategy recommendations.
